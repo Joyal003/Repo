@@ -5,11 +5,20 @@ const http=require('http').createServer(app)
 const { STATUS } = require('./utils/enum');
 const Product = require('./models/productModel')
 const taskRoute = require("./routes/taskRoute");
+const cors = require(`cors`);
+
+
+app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
 // const serveIndex=require("serve-index")
 // const morgan = require("morgan");
 // const bodyParser = require("body-parser");
 // require("dotenv").config();
-// var cors = require(`cors`);
 // var cookieParser= require("cookie-parser");
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
@@ -41,25 +50,6 @@ app.get("/taskview/:id",async(req,res)=>{
         const {id} = req.params;
         const product = await Product.findById(id);
         res.status(200).json(product)
-    }
-    catch(err) {
-        console.log(err.message)
-        res.status(500).json({message:err.message})
-    }
-})
-
-//update task
-app.put("/taskUpdate/:id",async(req,res)=>{
-    try{
-        const {id} = req.params;
-        const product = await Product.findByIdAndUpdate(id,req.body);
-
-        if(!product){
-            console.log(product);
-            return res.status(404).json({message:`cannot find the task with ID ${id}`})
-        }
-        const updatedProduct = await Product.findById(id)
-        res.status(200).json(updatedProduct)
     }
     catch(err) {
         console.log(err.message)

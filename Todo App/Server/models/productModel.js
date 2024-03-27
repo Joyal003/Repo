@@ -2,10 +2,6 @@ const mongoose = require("mongoose")
 
 const productSchema = mongoose.Schema(
     {
-        title: {
-            type: String,
-            required :[true,"Please enter a title"]
-        },
         description: {
             type : String,
             required:true,
@@ -14,6 +10,11 @@ const productSchema = mongoose.Schema(
         status : {
             type : Number,
             required:false,
+        },
+        completed : {
+            type : Boolean ,
+            required : true,
+            default:false
         },
         image : {
             type : String ,
